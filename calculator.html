@@ -151,24 +151,55 @@
               as="div"
               variant="muted"
               className={`
-                flex items-center justify-end
+                flex items-center justify-end h-7
               `}
             >
-              {operation}
+              {result && operation}
             </Text>
             <div
               className={`
-                  flex items-center justify-between
+                  flex items-center justify-between h-9
                 `}
             >
               <Text variant="muted"> = </Text>
-              <Text variant="blast"> {result} </Text>
+              <Text variant="blast"> {result || operation} </Text>
             </div>
           </div>
         )
       }
 
       function Calculator() {
+        const [operation, setOperation] = React.useState('')
+        const [result, setResult] = React.useState('')
+
+        function handleClick(input) {
+          if (input === 'C') {
+            setOperation('')
+            setResult('')
+          }
+
+          if (input === 'CE') {
+            setResult('')
+            setOperation(operation.slice(0, -2))
+          }
+
+          if (input === '=') {
+            const operationResult = eval(operation.replace(/,/g, '.'))
+            const parsedResult = operationResult.toString().replace(/\./g, ',')
+            setResult(parsedResult)
+            return
+          }
+
+          if (input === ',') {
+            if (!operation.endsWith(',')) {
+              setOperation(`${operation},`)
+            }
+            return
+          }
+
+          setOperation(`${operation}${input}`)
+        }
+
         return (
           <Card
             className={`
@@ -176,13 +207,14 @@
           pt-14 px-8 pb-8
         `}
           >
-            <CalculatorDisplay operation="1 + 1" result="2" />
+            <CalculatorDisplay operation={operation} result={result} />
 
             <div className="flex flex-col gap-3">
               {Buttons.map((row, index) => (
                 <div key={`row-${index}`} className="flex gap-3">
                   {row.map(({ input, className, variant }) => (
                     <Button
+                      onClick={() => handleClick(input)}
                       className={className || 'w-16 h-16'}
                       variant={variant}
                     >

@@ -180,7 +180,7 @@
 
           if (input === 'CE') {
             setResult('')
-            setOperation(operation.slice(0, -2))
+            setOperation(operation.slice(0, -1))
           }
 
           if (input === '=') {
@@ -191,11 +191,7 @@
           }
 
           if (result) {
-            setOperation(
-              isNaN(input)
-                ? `${result}${input === ',' ? '' : ' '}${input}`
-                : input,
-            )
+            setOperation(isNaN(input) ? `${result}${input}` : input)
             setResult('')
             return
           }

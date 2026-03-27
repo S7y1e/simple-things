@@ -75,11 +75,24 @@
      return React.createElement(as, { className: `${textVariants[variant]} ${className ? className: null}` , ...props }, children)
     }
 
+    function Card({ children, className, ...props }) {
+      return (
+        <div 
+        className={
+          `bg-(--background) 
+          shadow-(--shadow) 
+          rounded-2x
+          ${className ? className : ''}
+          `}>
+            {children}
+        </div>
+      )
+    }
+
     function App() {
       return (
         <main className='py-28 px-4'>
-          <Text variant='blast'>Hello World</Text>
-          <Button>CE</Button>
+          <Card> TEST </Card>
         </main>
       )
     }

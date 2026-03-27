@@ -190,6 +190,16 @@
             return
           }
 
+          if (result) {
+            setOperation(
+              isNaN(input)
+                ? `${result}${input === ',' ? '' : ' '}${input}`
+                : input,
+            )
+            setResult('')
+            return
+          }
+
           if (input === ',') {
             if (!operation.endsWith(',')) {
               setOperation(`${operation},`)
